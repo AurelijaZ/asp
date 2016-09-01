@@ -66,7 +66,6 @@ public partial class _Default : System.Web.UI.Page
     protected void ListBoxButton_Click(object sender, EventArgs e)
     {
         CheckBoxList1.Text = "";
-        List<String> DrinkList = new List<string>();
         foreach (ListItem item in CheckBoxList1.Items)
         {
             if (item.Selected == true)
@@ -76,7 +75,7 @@ public partial class _Default : System.Web.UI.Page
         
         }
 
-        // DrinkOutput.Text = "You have selected favourite drink from the list: " + CheckBoxList1.SelectedItem.Text;
+       
 
     }
 }

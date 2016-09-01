@@ -1,0 +1,19 @@
+﻿@model Invitation.Models.Class1
+
+@{
+    ViewBag.Title = "Thanks";
+}
+<div class="text-center">
+    <h2>Thank you, @Model.Name </h2>
+
+    <div class="lead">
+        @if (Model.WillAttend == true)
+        {
+            @:It's great that you're coming. The drinks are in the fridge.
+}
+        else
+        {
+            @:I'm sorry you can't make it.
+}
+    </div>
+</div>
