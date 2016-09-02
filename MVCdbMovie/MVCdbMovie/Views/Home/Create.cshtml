@@ -1,0 +1,36 @@
+﻿@model MVCdbMovie.Models.Movie
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <h4> Movie</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title)
+            @Html.EditorFor(model => model.Title)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReleaseDate)
+            @Html.EditorFor(model => model.ReleaseDate)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Genre)
+            @Html.EditorFor(model => model.Genre)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price)
+            @Html.EditorFor(model => model.Price)
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" />
+
+        </div>
+
+    </div>
+} @Html.ActionLink("Back to List", "Index")
