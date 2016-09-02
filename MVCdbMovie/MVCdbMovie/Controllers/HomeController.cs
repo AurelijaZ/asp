@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +14,7 @@ namespace MVCdbMovie.Controllers
         private MoviesDBAurelijaEntities db = new MoviesDBAurelijaEntities();
 
         // GET: Home
-        public ActionResult Index(string movieGenre)
+        public ActionResult Index(string movieGenre, string searchString)
         {
             //creating the listbox for selecting by genre
             var genreList = new List<string>();
@@ -31,6 +32,11 @@ namespace MVCdbMovie.Controllers
             if (!String.IsNullOrEmpty(movieGenre))
             {
                 movies = movies.Where(x => x.Genre == movieGenre);
+            }
+            //select by title 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title.Contains(searchString));
             }
 
             return View(movies);
@@ -52,14 +58,30 @@ namespace MVCdbMovie.Controllers
         [HttpPost]
         public ActionResult Edit(Movie movie)
         {
-            db.Entry(movie).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Entry(movie).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(movie);
+            }
 
         }
         public ActionResult Delete (int? ID)
         {
+            if (ID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            }
             Movie movie = db.Movies.Find(ID);
+            if(movie == null)
+            {
+                return HttpNotFound(); //if someone tries to delete something absent its not found 
+            }
             return View(movie);
         }
         [HttpPost, ActionName("Delete")]
@@ -81,9 +103,16 @@ namespace MVCdbMovie.Controllers
         public ActionResult Create(Movie movie)
 
         {
-            db.Movies.Add(movie);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Movies.Add(movie);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(movie);
+            }
 
         }
     }
